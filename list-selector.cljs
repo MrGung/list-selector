@@ -21,22 +21,24 @@
     (js/setTimeout #(swap! state (fn [state] (update-selected state key))) (* n i 133))))
 
 
+(def <-input useInput)
+
 
 (defn list-entry [item-key]
   (let [display-name (get-in @state [item-key :display-name])
-        selected (get-in @state [item-key :selected])
-        ;;input (useInput (fn input-hook [input, key]
-        ;;                  (cond
-        ;;                    (.-return key) (swap! @state #(update-selected % item-key)))))
-        ]
+        selected (get-in @state [item-key :selected])]
+    (<-input (fn [input key]
+               (cond
+                 (.-return key) (swap! @state #(update-selected % item-key)))))
     [:> Box
      [:> Text "[" (if selected "x" " ") "] " display-name]]))
 
 ;; for interop with React-libraries: :> (r/create-class)
 (defn app []
   [:> Box {:flexDirection "column" :borderStyle "round" :width 20 :paddingX 1}
-   (for [[key item-state] @state]
-     ^{:key key} [list-entry key])])
+   (doall
+     (for [[key item-state] @state]
+       ^{:key key} [:> list-entry key]))])
 
 
 
