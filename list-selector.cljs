@@ -1,7 +1,6 @@
 (ns list-selector
   (:require
     [reagent.core :as r]
-    [reagent.dom :as d]
     ["ink" :refer [render Text Box useInput useApp]]))
 
 
