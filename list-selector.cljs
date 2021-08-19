@@ -90,7 +90,7 @@
      (doall
        (map-indexed
          (fn [index item-state]
-           ^{:key (:display-name item-state)} [list-entry (r/cursor state [index])])
+           ^{:key (:display-name item-state)} [list-entry (get @state index)])
          ;; TODO get rid of the deref 'inside' the component.
          @state))]))
 
