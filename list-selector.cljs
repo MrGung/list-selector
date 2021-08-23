@@ -68,9 +68,9 @@
 ;; https://github.com/reagent-project/reagent/blob/master/doc/CreatingReagentComponents.md#form-2--a-function-returning-a-function
 ;; but are they still necessary!? it works either way...?
 (defn list-entry [state]
-  (let [display-name (get @state :display-name)
-        selected (get @state :selected)
-        highlighted (get @state :highlighted)]
+  (let [display-name (get state :display-name)
+        selected (get state :selected)
+        highlighted (get state :highlighted)]
     [:> Box
      [:> Text (if highlighted {:color "green"}) "[" (if selected "x" " ") "] " display-name]]))
 
@@ -89,7 +89,7 @@
      (doall
        (map-indexed
          (fn [index item-state]
-           ^{:key index} [list-entry (r/cursor state [index])])
+           ^{:key index} [list-entry (get @state index)])
          ;; TODO get rid of the deref 'inside' the component.
          @state))]))
 
